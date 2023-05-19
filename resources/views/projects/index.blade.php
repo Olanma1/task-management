@@ -1,31 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Task Management</title>
-</head>
-<body>
+@extends('layouts.app')
 
-    <h1>Task Management</h1>
+@section('content')
+    <header class="flex items-center mb-3">
+        <div class="flex justify-between items-center w-full">
+            <h2>My projects</h2>
+            <button
+                class="px-4 py-2 text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
+                <a href="{{ route('user-create-project')}}">New project</a>
+            </button>
+        </div>
+    </header>
 
-    <ul>
+    <main class="flex flex-wrap -mx-3">
         @forelse ($projects as $project)
-
-        <li>
-            <a href="{{ route('user-view-one-project', ['project' => $project->id]) }}">
-                {{ $project->title }}
-            </a>
-        </li>
-
+        <div class="w-1/4 px-3 pb-6">
+            @include('projects.card')
         @empty
-
-        <li>
-            No Projects yet.
-        </li>
-
+            <div>No Projects yet.</div>
         @endforelse
-    </ul>
-</body>
-</html>
+    </main>
+@endsection
