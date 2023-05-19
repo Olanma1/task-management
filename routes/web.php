@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\Project;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProjectsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +19,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/projects', [ProjectsController::class, 'getProject'])->name('user-get-project');
+    Route::get('/project/create', [ProjectsController::class, 'createProject'])->name('user-create-project');
+    Route::get('/projects/{project}', [ProjectsController::class, 'viewOneProject'])->name('user-view-one-project');
+    Route::post('/', [ProjectsController::class, 'saveProject'])->name('user-project');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});
+
+Auth::routes();
