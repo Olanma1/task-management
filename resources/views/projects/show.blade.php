@@ -19,24 +19,23 @@
         <div class="lg:w-3/4 px-3 mb-6">
             <div class="mb-6">
                 <h2 class="text-gray-400 font-bold mb-3">Tasks</h2>
+                @foreach ($project->tasks as $tasks)
                 <div class="bg-white p-5 rounded-lg shadow mb-3">
-                    <h3 class="font-normal text-xl mb-3 pl-4">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </h3>
+                    <form action="{{ route('user-update-project-task', [$project->id, $tasks->id] )}}" method="POST"> @method('PUT')
+                        @csrf
+                        <div class="flex">
+                            <input type="text" value="{{ $tasks->body }}" class="w-full {{ $tasks->completed ? 'changed': '' }}" name="body">
+                            <input type="checkbox" name="completed" onchange="this.form.submit()" {{ $tasks->completed ? 'checked': '' }}>
+                        </div>
+                    </form>
                 </div>
+                @endforeach
                 <div class="bg-white p-5 rounded-lg shadow mb-3">
                     <h3 class="font-normal text-xl mb-3 pl-4">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </h3>
-                </div>
-                <div class="bg-white p-5 rounded-lg shadow mb-3">
-                    <h3 class="font-normal text-xl mb-3 pl-4">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </h3>
-                </div>
-                <div class="bg-white p-5 rounded-lg shadow mb-3">
-                    <h3 class="font-normal text-xl mb-3 pl-4">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        <form action="{{ route('user-add-project-task', [$project->id] )}}" method="POST">
+                            @csrf
+                            <input class="w-full" placeholder="add tasks..." name="body" />
+                        </form>
                     </h3>
                 </div>
             </div>

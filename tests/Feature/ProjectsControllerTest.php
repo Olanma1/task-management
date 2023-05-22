@@ -21,8 +21,10 @@ class ProjectsControllerTest extends TestCase
             'description' => $this->faker->paragraph(),
         ];
 
-        $this->ActingAs($user)->postJson(route('user-project'), $attributes)
-            ->assertRedirect(route('user-get-project'));
+        $response = $this->ActingAs($user)->postJson(route('user-project'), $attributes);
+        $project = Project::where($attributes)->first();
+
+        $response->assertRedirect(route('user-view-one-project', parameters: $project->id));
 
         $this->assertDatabaseHas('projects', $attributes);
         $this->getJson(route('user-get-project'))->assertSee($attributes['title']);

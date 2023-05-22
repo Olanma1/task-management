@@ -20,9 +20,9 @@ class ProjectsController extends Controller
 
         $attributes['owner_id'] = auth()->user()->id;
 
-        auth()->user()->project()->create($attributes);
+        $project = auth()->user()->project()->create($attributes);
 
-        return redirect('/projects');
+        return redirect('/projects/'. $project->id);
     }
 
     public function viewOneProject(Project $project)
