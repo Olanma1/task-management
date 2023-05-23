@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Mockery\Generator\Parameter;
 
 class ProjectsControllerTest extends TestCase
 {
@@ -18,7 +19,8 @@ class ProjectsControllerTest extends TestCase
 
         $attributes = [
             'title' => $this->faker->sentence(),
-            'description' => $this->faker->paragraph(),
+            'description' => $this->faker->sentence(),
+            'notes' => $this->faker->paragraph(),
         ];
 
         $response = $this->ActingAs($user)->postJson(route('user-project'), $attributes);
@@ -27,7 +29,9 @@ class ProjectsControllerTest extends TestCase
         $response->assertRedirect(route('user-view-one-project', parameters: $project->id));
 
         $this->assertDatabaseHas('projects', $attributes);
-        $this->getJson(route('user-get-project'))->assertSee($attributes['title']);
+        $this->getJson(route('user-view-one-project', parameters: $project->id ))
+        ->assertSee($attributes['title'])
+        ->assertSee($attributes['notes']);
     }
 
     public function test_it_returns_403_for_non_owner_user(): void
@@ -47,6 +51,23 @@ class ProjectsControllerTest extends TestCase
         $project = Project::factory()->create();
 
         $this->assertInstanceOf(User::class, $project->owner);
+
+    }
+
+    public function test_user_can_update_their_project_with_notes(): void
+    {
+        $user = User::factory()->create();
+
+        $project = Project::factory()->create(['owner_id' => $user->id]);
+
+        $this->actingAs($user)
+        ->putJson(route('user-update-project', parameters: $project->id), [
+            'notes' => 'Note updated',
+        ])->assertRedirect(route('user-view-one-project', parameters: $project->id));
+
+        $this->assertDatabaseHas('projects', [
+            'notes' => 'Note updated',
+        ]);
 
     }
 }
