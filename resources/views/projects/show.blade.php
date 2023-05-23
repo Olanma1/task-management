@@ -24,7 +24,7 @@
                     <form action="{{ route('user-update-project-task', [$project->id, $tasks->id] )}}" method="POST"> @method('PUT')
                         @csrf
                         <div class="flex">
-                            <input type="text" value="{{ $tasks->body }}" class="w-full {{ $tasks->completed ? 'changed': '' }}" name="body">
+                            <input type="text" value="{{ $tasks->body }}" class="block w-full px-4 py-2 mt-2 text-purple-700 bg-white rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40 {{ $tasks->completed ? 'changed': '' }}" name="body">
                             <input type="checkbox" name="completed" onchange="this.form.submit()" {{ $tasks->completed ? 'checked': '' }}>
                         </div>
                     </form>
@@ -34,24 +34,31 @@
                     <h3 class="font-normal text-xl mb-3 pl-4">
                         <form action="{{ route('user-add-project-task', [$project->id] )}}" method="POST">
                             @csrf
-                            <input class="w-full" placeholder="add tasks..." name="body" />
+                            <input class="block w-full px-4 py-2 mt-2 text-purple-700 bg-white rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="add tasks..." name="body" />
                         </form>
                     </h3>
                 </div>
             </div>
                 <div>
                     <h2 class="text-gray-400 font-bold mb-3">Notes</h2>
-                    <div class="bg-white p-5 rounded-lg shadow">
-                    <textarea class="font-normal text-xl mb-3 pl-4 w-full" style="min-height: 150px">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi commodi provident distinctio? Non ipsam quibusdam perferendis? Cupiditate obcaecati ea ipsa mollitia possimus eaque, unde eum accusamus quibusdam. Iure, cum nesciunt.
-                    </textarea>
+                    <form action="{{ route('user-update-project', ['project' => $project->id])}}" method="POST">
+                            <div class="bg-white p-5 rounded-lg shadow">
+                                @method('PUT')
+                                @csrf
+                                <textarea class="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40" name="notes" placeholder="Add more notes to this task..." style="min-height: 150px">
+                                {{ $project->notes }}
+                                </textarea>
+                            </div>
+                                <button type="submit" class=" mt-6 px-4 py-2 text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
+                                    Save
+                                </button>
+                        </form>
                 </div>
+            </div>
+            <div class="lg:w-1/4 px-3 mt-9">
+                @include('projects.card')
+            </div>
         </div>
-        </div>
-        <div class="lg:w-1/4 px-3 mt-9">
-             @include('projects.card')
-        </div>
-    </div>
     </div>
 </main>
 

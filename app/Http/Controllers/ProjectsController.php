@@ -15,7 +15,8 @@ class ProjectsController extends Controller
     {
         $attributes = request()->validate([
             'title' => 'required',
-            'description' => 'required',
+            'description' => 'required|max:100',
+            'notes' => 'max:255',
         ]);
 
         $attributes['owner_id'] = auth()->user()->id;
@@ -27,9 +28,7 @@ class ProjectsController extends Controller
 
     public function viewOneProject(Project $project)
     {
-        if(auth()->user()->id !== (int) $project->owner_id){
-            abort(403);
-        }
+        $this->authorize('update', $project);
 
         return view('projects.show', compact('project'));
     }
@@ -39,5 +38,19 @@ class ProjectsController extends Controller
         $projects = auth()->user()->project;
 
         return view('projects.index', compact('projects'));
+    }
+
+    public function updateProject(Project $project)
+    {
+        $this->authorize('update', $project);
+
+        request()->validate([
+            'notes' => 'required',
+        ]);
+
+        $project->update([
+            'notes' =>request('notes'),
+        ]);
+        return redirect('/projects/'. $project->id);
     }
 }
