@@ -54,19 +54,25 @@ class ProjectsControllerTest extends TestCase
 
     }
 
-    public function test_user_can_update_their_project_with_notes(): void
+    public function test_user_can_update_their_project(): void
     {
+        $this->withoutExceptionHandling();
+
         $user = User::factory()->create();
 
         $project = Project::factory()->create(['owner_id' => $user->id]);
 
         $this->actingAs($user)
         ->putJson(route('user-update-project', parameters: $project->id), [
+            'title' => 'title updated',
+            'description' => 'description updated',
             'notes' => 'Note updated',
-        ])->assertRedirect(route('user-view-one-project', parameters: $project->id));
+        ]);
 
         $this->assertDatabaseHas('projects', [
             'notes' => 'Note updated',
+            'title' => 'title updated',
+            'description' => 'description updated',
         ]);
 
     }

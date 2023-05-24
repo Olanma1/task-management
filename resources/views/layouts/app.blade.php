@@ -22,7 +22,7 @@
             <div class="container mx-auto">
                 <div class="flex justify-between items-center py-2">
                     <h1 class="font-bold mr-auto">
-                        <a class="navbar-brand" href="{{ url('/') }}">
+                        <a class="navbar-brand" href="{{ url('/projects') }}">
                             <img src="/images/quill.png" alt="Task">
                             {{ config('app.name', 'Laravel') }}
                         </a>

@@ -10,13 +10,13 @@
         <div class="field">
             <label class="block text-bold text-gray-800" for="title">Title</label>
             <div class="control">
-                <input type="text" class="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40" name="title" placeholder="">
+                <input type="text" required class="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40" name="title" placeholder="">
             </div>
         </div>
         <div class="field">
             <label class="block text-bold text-gray-800" for="description">Description</label>
             <div class="control">
-                <textarea class="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40" name="description"></textarea>
+                <textarea required class="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40" name="description"></textarea>
             </div>
         </div>
         <div class="field">
