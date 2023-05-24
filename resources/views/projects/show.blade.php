@@ -9,7 +9,7 @@
             </p>
         <button
             class="px-4 py-2 text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
-            <a href="{{ route('user-create-project')}}">New project</a>
+            <a href="{{ route('user-edit-project', ['project' => $project->id])}}">Edit project</a>
         </button>
     </div>
 </header>
