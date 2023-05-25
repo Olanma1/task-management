@@ -52,12 +52,56 @@ class ProjectTasksTest extends TestCase
         $this->actingAs($user)
         ->putJson(route('user-update-project-task', ['project' => $project->id, 'task' => $task->id]), [
             'body' => 'project task',
+        ]);
+        $this->assertDatabaseHas('tasks',
+        [
+            'body' => 'project task',
+        ]);
+    }
+
+    public function test_task_can_be_completed(): void
+    {
+        $user = User::factory()->create();
+
+        $project = Project::factory()->create(['owner_id' => $user->id]);
+
+        $task = $project->addTask('project task');
+
+        $this->actingAs($user)
+        ->putJson(route('user-update-project-task', ['project' => $project->id, 'task' => $task->id]), [
+            'body' => 'project task',
             'completed' => true,
         ]);
         $this->assertDatabaseHas('tasks',
         [
             'body' => 'project task',
             'completed' => true,
+        ]);
+    }
+
+    public function test_task_can_be_marked_as_incomplete(): void
+    {
+        $user = User::factory()->create();
+
+        $project = Project::factory()->create(['owner_id' => $user->id]);
+
+        $task = $project->addTask('project task');
+
+        $this->actingAs($user)
+        ->putJson(route('user-update-project-task', ['project' => $project->id, 'task' => $task->id]), [
+            'body' => 'project task',
+            'completed' => true,
+        ]);
+
+        $this->actingAs($user)
+        ->putJson(route('user-update-project-task', ['project' => $project->id, 'task' => $task->id]), [
+            'body' => 'project task',
+            'completed' => false,
+        ]);
+        $this->assertDatabaseHas('tasks',
+        [
+            'body' => 'project task',
+            'completed' => false,
         ]);
     }
 
