@@ -29,9 +29,12 @@ class ProjectTasksController extends Controller
         ]);
 
         $task->update([
-            'body' =>request('body'),
-            'completed' => request()->has('completed'),
+            'body' => request('body'),
         ]);
+
+        $method = request('completed') ? 'complete' : 'incomplete';
+        $task->$method();
+
         return redirect('/projects/'. $project->id);
     }
 }

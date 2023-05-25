@@ -16,7 +16,7 @@
 
 <main>
     <div class="lg:flex">
-        <div class="lg:w-3/4 px-3 mb-6">
+        <div class="lg:w-3/4 px-2 mb-6">
             <div class="mb-6">
                 <h2 class="text-gray-400 font-bold mb-3">Tasks</h2>
                 @foreach ($project->tasks as $tasks)
@@ -57,6 +57,7 @@
             </div>
             <div class="lg:w-1/4 px-3 mt-9">
                 @include('projects.card')
+                @include('projects.activity.activity')
             </div>
         </div>
     </div>
