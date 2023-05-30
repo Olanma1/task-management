@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\ActivityTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Project extends Model
 {
-    use HasFactory;
+    use HasFactory; use ActivityTrait;
 
     protected $guarded = [];
-
 
     public function owner()
     {
@@ -29,6 +29,6 @@ class Project extends Model
 
     public function activity()
     {
-        return $this->hasMany(Activity::class)->latest('created_at');
+        return $this->hasMany(Activity::class)->latest();
     }
 }
