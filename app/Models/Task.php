@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\ActivityTrait;
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Task extends Model
 {
-    use HasFactory;
+    use HasFactory; use ActivityTrait;
 
     protected $guarded = [];
 
@@ -19,36 +22,15 @@ class Task extends Model
     {
         parent::boot();
 
-        static::created(function ($task){
-            Activity::create([
-                'project_id' => $task->project->id,
-                'description' => 'create_task',
-            ]);
-        });
-
         static::updated(function ($task){
             if(! $task->completed) return;
-
-            Activity::create([
-                'project_id' => $task->project->id,
-                'description' => 'completed_task',
-            ]);
+            $task->createActivity('completed_task');
         });
 
         static::updated(function ($task){
             if(! $task->completed){
-                Activity::create([
-                    'project_id' => $task->project->id,
-                    'description' => 'incompleted_task',
-                ]);
+                $task->createActivity('incompleted_task');
             }
-        });
-
-        static::deleted(function ($task){
-             Activity::create([
-                'project_id' => $task->project->id,
-                'description' => 'deleted_task',
-            ]);
         });
     }
     public function project()

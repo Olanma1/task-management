@@ -57,7 +57,6 @@ class ProjectsControllerTest extends TestCase
     public function test_user_can_update_their_project(): void
     {
         $this->withoutExceptionHandling();
-
         $user = User::factory()->create();
 
         $project = Project::factory()->create(['owner_id' => $user->id]);
