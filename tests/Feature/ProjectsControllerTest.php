@@ -75,4 +75,26 @@ class ProjectsControllerTest extends TestCase
         ]);
 
     }
+
+    public function test_user_can_delete_project(): void
+    {
+        $user = User::factory()->create();
+
+        $project = Project::factory()->create(['owner_id' => $user->id]);
+        $response = $this->ActingAs($user)->deleteJson(route('user-delete-project', parameters: $project->id));
+
+        $response->assertRedirect(route('user-get-project'));
+
+        $this->assertDatabaseMissing('projects', [$project]);
+    }
+
+    public function test_unauthorized_user_can_not_delete_project(): void
+    {
+        $user = User::factory()->create();
+
+        $project = Project::factory()->create(['owner_id' => $user->id]);
+        $response = $this->deleteJson(route('user-delete-project', parameters: $project->id));
+
+        $response->assertStatus(401);
+    }
 }
