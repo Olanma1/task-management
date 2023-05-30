@@ -26,8 +26,8 @@ class ProjectsObserver
     /**
      * Handle the Project "deleted" event.
      */
-    public function deleted(Project $project): void
-    {
-        $project->createActivity('deleted');
-    }
+    // public function deleted(Project $project): void
+    // {
+    //     $project->createActivity('deleted');
+    // }
 }

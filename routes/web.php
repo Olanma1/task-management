@@ -20,6 +20,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/projects/{project}/edit', [ProjectsController::class, 'editProject'])->name('user-edit-project');
     Route::post('/projects/{project}/tasks', [ProjectTasksController::class, 'addProjectTask'])->name('user-add-project-task');
     Route::put('/projects/{project}/tasks/{task}', [ProjectTasksController::class, 'updateProjectTask'])->name('user-update-project-task');
+    Route::delete('/projects/{project}', [ProjectsController::class, 'deleteProject'])->name('user-delete-project');
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
