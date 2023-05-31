@@ -62,7 +62,7 @@ class ProjectsController extends Controller
 
     public function deleteProject(Project $project)
     {
-        $this->authorize('update', $project);
+        $this->authorize('manage', $project);
 
         $project->delete();
         return redirect('/projects');
