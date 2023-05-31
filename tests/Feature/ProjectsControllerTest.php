@@ -7,7 +7,6 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Mockery\Generator\Parameter;
 
 class ProjectsControllerTest extends TestCase
 {
@@ -111,5 +110,12 @@ class ProjectsControllerTest extends TestCase
         $response = $this->deleteJson(route('user-delete-project', parameters: $project->id));
 
         $response->assertStatus(401);
+
+        $anotherUser = User::factory()->create();
+
+        $project->invite($anotherUser);
+        $response = $this->ActingAs($anotherUser)->deleteJson(route('user-delete-project', parameters: $project->id));
+        $response->assertStatus(403);
+
     }
 }
