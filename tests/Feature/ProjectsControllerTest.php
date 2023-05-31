@@ -46,6 +46,21 @@ class ProjectsControllerTest extends TestCase
         $response->assertStatus(403);
     }
 
+    public function test_a_user_can_see_all_projects_they_are_associated_with(): void
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::factory()->create();
+
+        $project = Project::factory()->create();
+
+        $this->actingAs($user);
+        $project->invite($user);
+        $this->getJson(route('user-get-project'))
+        ->assertSee($project->title);
+
+    }
+
     public function test_project_belongs_to_the_owner(): void
     {
         $project = Project::factory()->create();

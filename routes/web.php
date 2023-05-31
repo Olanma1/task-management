@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\InvitationsController;
 use App\Http\Controllers\ProjectTasksController;
 
 
@@ -21,6 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/projects/{project}/tasks', [ProjectTasksController::class, 'addProjectTask'])->name('user-add-project-task');
     Route::put('/projects/{project}/tasks/{task}', [ProjectTasksController::class, 'updateProjectTask'])->name('user-update-project-task');
     Route::delete('/projects/{project}', [ProjectsController::class, 'deleteProject'])->name('user-delete-project');
+    Route::post('/projects/{project}/invite', [InvitationsController::class, 'inviteUserToProject'])->name('user-invite-team');
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 

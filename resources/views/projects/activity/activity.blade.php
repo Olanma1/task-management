@@ -1,4 +1,4 @@
-<div class="bg-white p-5 rounded-lg shadow mt-9 text-sm" style="height: 200px">
+<div class="bg-white p-5 rounded-lg shadow mt-9 text-sm mr-5" style="height: 200px">
     <ul>
         @foreach ($project->activity as $activity)
             <li>
@@ -24,3 +24,4 @@
         @endforeach
     </ul>
 </div>
+
