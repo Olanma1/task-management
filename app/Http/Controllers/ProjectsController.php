@@ -35,7 +35,7 @@ class ProjectsController extends Controller
 
     public function getProject()
     {
-        $projects = auth()->user()->project;
+        $projects = auth()->user()->allProjects();
 
         return view('projects.index', compact('projects'));
     }

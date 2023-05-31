@@ -7,10 +7,20 @@
             <a href="{{ route('user-get-project')}}">My projects</a>/
                 {{ $project->title }}
             </p>
-        <button
-            class="px-4 py-2 text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
-            <a href="{{ route('user-edit-project', ['project' => $project->id])}}">Edit project</a>
-        </button>
+            <div class="flex items-center">
+                @foreach ($project->team as $member)
+                    <img src="{{ avartar_url($member->email) }}?s=60"
+                    alt="{{ $member->name }}"
+                    class="rounded-full w-6 mr-2" />
+                @endforeach
+                <img src="{{ avartar_url($project->owner->email) }}?s=60}}"
+                    alt="{{ $project->owner->name }}"
+                    class="rounded-full w-6 mr-2" />
+                <button
+                    class="ml-4 px-4 py-2 text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
+                    <a href="{{ route('user-edit-project', ['project' => $project->id])}}">Edit project</a>
+                </button>
+            </div>
     </div>
 </header>
 
@@ -58,6 +68,10 @@
             <div class="lg:w-1/4 px-3 mt-9">
                 @include('projects.card')
                 @include('projects.activity.activity')
+
+                @can('manage', $project)
+                    @include('projects.invite')
+                @endcan
             </div>
         </div>
     </div>
